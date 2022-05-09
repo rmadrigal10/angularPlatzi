@@ -1,0 +1,45 @@
+<div class="show-mobile">
+    <div>
+        <button (click)="toggleMenu()">
+            <img src="./assets/svg/icon_menu.svg" alt="menu">
+        </button>
+        <a href="">
+            <img src="./assets/svg/logo_yard_sale.svg" alt="">
+        </a>
+        <a href="">
+            <img src="./assets/svg/icon_shpping_cart.svg" alt="">
+        </a>
+    </div>
+    <div class="side-menu" [class.active]="activeMenu">
+        <button (click)="toggleMenu()">Close</button>
+        <ul>
+            <li><a href="">All</a></li>
+            <li><a href="">Clothes</a></li>
+            <li><a href="">Electronics</a></li>
+        </ul>
+    </div>
+</div>
+<div class="hide-mobile">
+    <div>
+        <nav>
+            <a class="logo" href="logo">
+                <img src="./assets/svg/logo_yard_sale.svg" alt="">
+            </a>
+            <ul>
+                <li><a href="">All</a></li>
+                <li><a href="">Clothes</a></li>
+                <li><a href="">Electronics</a></li>
+            </ul>
+        </nav>
+        <div class="info">
+            <div class="acount">
+
+            </div>
+            <div>
+                <a href="">
+                    <img src="./assets/svg/icon_shopping_cart.svg" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
