@@ -1,3 +1,31 @@
+<button (click)="createProduct()">Create</button>
+
+<!-- <p>Fecha: {{ fecha | date: 'short' }}</p>
+<p>{{ myShoppingCart.length }}</p>
+<p>
+    Total: ${{ total }}
+</p> -->
+
 <div class="products--grid">
-    <app-product [product]="product" *ngFor="let product of products"></app-product> <!--recuerda que el property binding como [product], tambien es necesario para escuchar la información-->
+    <app-product [product]="product" *ngFor="let product of products"       
+        (addedProduct)="onAddtoShopping($event)"
+        (showProduct)="onShowDetail($event)">
+    </app-product>                                               
+</div>
+
+<div class="product-detail" [class.active]="showProduct">
+    <div *ngIf="chosenProduct">
+        <button (click)="toggleProduct()">Close</button>
+        <h1>{{ chosenProduct.title }}</h1>
+
+        <swiper
+            [slidesPerView]="1"
+        >
+            <ng-template swiperSlide *ngFor="let img of chosenProduct.images">
+                <img [src]="img" alt="">
+            </ng-template>
+        </swiper>
+
+        <p>{{ chosenProduct.description }}</p>
+    </div>
 </div>
