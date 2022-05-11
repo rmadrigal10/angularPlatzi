@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { retry } from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment';
+
 import { Product, CreateProductDTO, UpdateProductDTO } from '../models/product.model';
 
 
@@ -11,7 +13,7 @@ import { Product, CreateProductDTO, UpdateProductDTO } from '../models/product.m
 
 export class ProductsService {
 
-  private apiUrl = '/api/products';
+  private apiUrl = `${environment.API_URL}/api/products`;
 
   constructor(
     private http: HttpClient
