@@ -13,6 +13,9 @@ export interface Product {
     category: Category
 }
 
-export interface CreateProductDTO extends Omit<Product, 'id' | 'category'> {
-    categoryId: number;
+export interface CreateProductDTO extends Omit<Product, 'id' | 'category'> {        //Al usar Omit, se omiten los valores que están entre comillas
+    categoryId: number;                                                             //'id', y 'category'
 }
+
+export interface UpdateProductDTO extends Partial<CreateProductDTO> {}    //Al usar Partial, se está diciendo que los valores son opcionales
+

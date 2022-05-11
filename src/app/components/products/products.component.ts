@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product, CreateProductDTO } from 'src/app/models/product.model';
+import { Product, CreateProductDTO, UpdateProductDTO } from 'src/app/models/product.model';
 import { ProductsService } from 'src/app/services/products.service';
 
 import { StoreService } from 'src/app/services/store.service';
@@ -33,6 +33,9 @@ export class ProductsComponent implements OnInit {
   // fecha = new Date();
   // date = new Date(2022, 1, 1);
 
+  limit = 10;
+  offset = 0;
+
   constructor (
     private storeService: StoreService,
     private productsService: ProductsService      //este servicio hace una petición asíncrona, por lo que debe de ir en ngOnInit
@@ -41,10 +44,20 @@ export class ProductsComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.productsService.getAllProducts()         //Con los observables de angular, debemos usar el método
-    .subscribe(data => {                          //.subscribe
-      this.products = data;                       //el objeto data está tipado en el products.service para que 'data', sea un array de tipo Product[]
+    //this.productsService.getAllProducts()         //Con los observables de angular, debemos usar el método//.subscribe.
+    this.productsService.getProductsByPage(10, 0)   //Esto nos permite traer una cantidad determinada de articulos en una pagina, empezando desde la posición 0.
+    .subscribe(data => {                          
+      this.products = data;                       //el objeto data está tipado en el products.service para que 'data', sea un array de tipo Product[].
+      this.offset += this.limit;
     });
+  }
+
+  loadMore(){
+    this.productsService.getProductsByPage(this.limit, this.offset)
+    .subscribe(data => {
+      this.products = this.products.concat(data);
+      this.offset += this.limit;
+    })
   }
 
   onAddtoShopping(product: Product){
@@ -67,7 +80,7 @@ export class ProductsComponent implements OnInit {
 
   createProduct(){
     const product: CreateProductDTO = {
-    images: [''],
+    images: ['https://placeimg.com/640/480/any?random=$%7BMath.random()%7D'],
     title: 'New Product',
     price: 10,
     description: 'blablabla',
@@ -76,9 +89,31 @@ export class ProductsComponent implements OnInit {
     
     this.productsService.create(product)
     .subscribe(data => {
-      console.log(data);
+      this.products.unshift(data);
     });
 
+  }
+
+  updateProduct(){
+    const changes: UpdateProductDTO = {
+      title: 'New Title'
+    }
+    const id = this.chosenProduct.id;
+    this.productsService.update(id, changes)
+    .subscribe(data => {
+      const productIndex = this.products.findIndex(item => item.id === this.chosenProduct.id);
+      this.products[productIndex] = data;
+    });
+  }
+
+  deleteProduct(){
+    const id = this.chosenProduct.id;
+    this.productsService.delete(id)
+    .subscribe(() => {
+      const productIndex = this.products.findIndex(item => item.id === this.chosenProduct.id);
+      this.products.splice(productIndex, 1);
+      this.showProduct = false;
+    })
   }
 
 }

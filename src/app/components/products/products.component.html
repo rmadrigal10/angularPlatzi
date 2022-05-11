@@ -10,7 +10,8 @@
     <app-product [product]="product" *ngFor="let product of products"       
         (addedProduct)="onAddtoShopping($event)"
         (showProduct)="onShowDetail($event)">
-    </app-product>                                               
+    </app-product>     
+    <button (click)="loadMore()">Load More</button>                                          
 </div>
 
 <div class="product-detail" [class.active]="showProduct">
@@ -27,5 +28,7 @@
         </swiper>
 
         <p>{{ chosenProduct.description }}</p>
+        <button (click)="updateProduct()">Editar</button>
+        <button (click)="deleteProduct()">Eliminar</button>
     </div>
 </div>
